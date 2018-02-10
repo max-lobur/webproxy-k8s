@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: webproxy
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: webproxy
+  namespace: webproxy
+data:
+  conf: |
+    auth_param basic program /usr/lib/squid3/basic_ncsa_auth /etc/squid3/passwords
+    auth_param basic realm proxy
+    acl authenticated proxy_auth REQUIRED
+    http_access allow authenticated
+    
+    http_port 3128
+    
+    # Disable caching
+    cache deny all
+    coredump_dir /dev/null
+    cache_dir null /dev/null
+    cache_store_log none
+    cache_access_log /dev/null
+    
+  htpasswd: |
+    <user>:<hashed_passwd>
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: webproxy
+  namespace: webproxy
+spec:
+  selector:
+    app: webproxy
+  ports:
+    - protocol: "TCP"
+      port: 9999
+      targetPort: 3128
+      name: http
+  type: LoadBalancer
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: webproxy
+  namespace: webproxy
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name:  webproxy
+      labels:
+        app: webproxy
+    spec:
+      containers:
+        - name: squid
+          image: sameersbn/squid:3.3.8-23
+          ports:
+            - containerPort: 3128
+              name: proxy
+          volumeMounts:
+            - mountPath: /etc/squid3/
+              name: squid3
+      volumes:
+        - name: squid3
+          configMap:
+            name: webproxy
+            items:
+            - key: conf
+              path: squid.conf
+            - key: htpasswd
+              path: passwords
+
