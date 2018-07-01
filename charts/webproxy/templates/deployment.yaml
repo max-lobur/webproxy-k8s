@@ -25,17 +25,15 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
+            - name: squid
               containerPort: 3128
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: squid
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            tcpSocket:
+              port: squid
           volumeMounts:
             - mountPath: /etc/squid3/
               name: squid3          

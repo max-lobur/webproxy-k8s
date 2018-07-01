@@ -12,9 +12,9 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: squid
       protocol: TCP
-      name: http
+      name: tcp
   selector:
     app: {{ template "webproxy.name" . }}
     release: {{ .Release.Name }}
