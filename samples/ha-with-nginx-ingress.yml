@@ -1,0 +1,36 @@
+# Default values for webproxy.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+login:
+  user: ""
+  password: ""
+
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    certmanager.k8s.io/cluster-issuer: letsencrypt-stage
+    certmanager.k8s.io/acme-challenge-type: http01
+    ingress.kubernetes.io/force-ssl-redirect: "true"
+  path: /
+  hosts:
+    - webproxy.DOMAIN
+  tls:
+   - secretName: webproxy.DOMAIN
+     hosts:
+       - webproxy.DOMAIN
+
+replicaCount: 2
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - webproxy
+        topologyKey: failure-domain.beta.kubernetes.io/zone
+      weight: 100

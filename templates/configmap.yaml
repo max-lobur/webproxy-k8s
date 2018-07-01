@@ -1,0 +1,34 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ template "webproxy.fullname" . }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ template "webproxy.name" . }}
+    chart: {{ template "webproxy.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  conf: |
+    auth_param basic program /usr/lib/squid3/basic_ncsa_auth /etc/squid3/passwords
+    auth_param basic realm proxy
+    acl authenticated proxy_auth REQUIRED
+    http_access allow authenticated
+    
+    http_port 3128
+
+    # Hide request origin
+    forwarded_for delete
+    via off
+    follow_x_forwarded_for deny all
+    request_header_access X-Forwarded-For deny all
+    
+    # Disable caching
+    cache deny all
+    coredump_dir /dev/null
+    cache_dir null /dev/null
+    cache_store_log none
+    cache_access_log /dev/null
+    
+  htpasswd: |
+    {{ .Values.login.user }}:{{ .Values.login.password }}

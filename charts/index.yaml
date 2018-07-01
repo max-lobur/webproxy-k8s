@@ -1,0 +1,13 @@
+apiVersion: v1
+entries:
+  webproxy-k8s:
+  - apiVersion: v1
+    appVersion: "1.0"
+    created: 2018-07-01T13:15:17.804887372+03:00
+    description: A simple web proxy (squid3) with basic auth.
+    digest: 5427e8702dab89ba07f862e724fb38993a2aca807a0fdc6bf9b95ca12dceb03e
+    name: webproxy-k8s
+    urls:
+    - webproxy-k8s-0.1.0.tgz
+    version: 0.1.0
+generated: 2018-07-01T13:15:17.80421467+03:00
