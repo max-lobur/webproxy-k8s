@@ -3,11 +3,11 @@ entries:
   webproxy:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2018-07-01T13:31:15.275168164+03:00
+    created: 2018-07-01T14:19:28.735824212+03:00
     description: A simple web proxy (squid3) with basic auth.
-    digest: 05942ce89bb95f725b64ec2b3e018c8955d0795b1be30b04c59e7e5a67eabfa2
+    digest: 56fe86db1dbc8c6cbcd146467b1234ac4257ab0c783ff9cf204efbab756bc7ee
     name: webproxy
     urls:
-    - webproxy-0.1.0.tgz
-    version: 0.1.0
-generated: 2018-07-01T13:31:15.274671084+03:00
+    - webproxy-0.2.0.tgz
+    version: 0.2.0
+generated: 2018-07-01T14:19:28.734617936+03:00

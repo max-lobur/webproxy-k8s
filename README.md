@@ -1,24 +1,29 @@
 # Web Proxy on Kubernetes
 A simple web proxy with basic auth, running on kubernetes. Based on Squid3.
 
-#### Deployment
-1. Add helm repo to your cluster
+## Deployment
+1. Add helm repo
    ```bash
-   helm repo add webproxy https://raw.githubusercontent.com/max-lobur/webproxy-k8s/master/charts/
+   helm repo add webproxy-k8s https://raw.githubusercontent.com/max-lobur/webproxy-k8s/master/charts/
    ```
 1. Generate squid basic auth login
    ```bash
-   LOGIN=`htpasswd -nd <USER>`
+   LOGIN=`htpasswd -nd <user>`
    echo $LOGIN
    ```
-1. Deploy (check ./samples)
+1. Edit sample vars
    ```bash
-   helm install webproxy-k8s -f ./samples/ha-with-nginx-ingress.yml --set 
+   cp ./samples/ha-with-nginx-ingress{,.my}.yaml
+   open ./samples/ha-with-nginx-ingress.my.yaml
+   ```
+1. Deploy
+   ```bash
+   helm install webproxy-k8s/webproxy --name webproxy-k8s --namespace=webproxy -f samples/ha-with-nginx-ingress.my.yaml --set login="$LOGIN"
    ```
 1. Test
    ```bash
-   curl -v -x user:passwd@balancer_url:9999 http://g.co/
+   curl -v -x $LOGIN@webproxy.DOMAIN:9999 http://g.co/
    ```
-#### Running the HA version in a multi-AZ cluster
-The `webproxy-ha.yml` has anti-affinity scheduling based on 
-`failure-domain.beta.kubernetes.io/zone` node tag. To use it 
+## Running the HA version in a multi-AZ cluster
+The above example vars [ha-with-nginx-ingress.yaml](./samples/ha-with-nginx-ingress.yaml) have soft anti-affinity scheduling 
+based on `failure-domain.beta.kubernetes.io/zone` node tag. See [Docs](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) for details.
