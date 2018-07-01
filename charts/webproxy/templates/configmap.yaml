@@ -31,4 +31,4 @@ data:
     cache_access_log /dev/null
     
   htpasswd: |
-    {{ .Values.login.user }}:{{ .Values.login.password }}
+    {{ .Values.login }}

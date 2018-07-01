@@ -4,9 +4,7 @@
 
 namespace: webproxy
 
-login:
-  user: ""
-  password: ""
+login: ""
 
 replicaCount: 1
 

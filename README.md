@@ -2,16 +2,18 @@
 A simple web proxy with basic auth, running on kubernetes. Based on Squid3.
 
 #### Deployment
-1. Generate `passwords` file
+1. Add helm repo to your cluster
    ```bash
-   USER=<user>
-   htpasswd -cd passwords ${USER}
-   # Type password in a prompt
-   PASS=`cat passwords` 
+   helm repo add webproxy https://raw.githubusercontent.com/max-lobur/webproxy-k8s/master/charts/
    ```
-1. Deploy
+1. Generate squid basic auth login
    ```bash
-   kubectl apply -f ./webproxy.yml
+   LOGIN=`htpasswd -nd <USER>`
+   echo $LOGIN
+   ```
+1. Deploy (check ./samples)
+   ```bash
+   helm install webproxy-k8s -f ./samples/ha-with-nginx-ingress.yml --set 
    ```
 1. Test
    ```bash
