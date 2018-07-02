@@ -1,0 +1,16 @@
+# TBD service
+
+replicaCount: 2
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - webproxy
+        topologyKey: failure-domain.beta.kubernetes.io/zone
+      weight: 100

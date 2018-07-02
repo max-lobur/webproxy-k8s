@@ -18,11 +18,11 @@ A simple web proxy with basic auth, running on kubernetes. Based on Squid3.
    ```
 1. Deploy
    ```bash
-   helm install webproxy-k8s/webproxy --name webproxy-k8s --namespace=webproxy -f samples/ha-with-nginx-ingress.my.yaml --set login="$LOGIN"
+   helm install webproxy-k8s/webproxy --name webproxy-k8s --namespace=webproxy -f samples/ha-with-lb-service.yaml --set login="$LOGIN"
    ```
 1. Test
    ```bash
-   curl -v -x $LOGIN@webproxy.DOMAIN:9999 http://g.co/
+   curl -v -x https://$LOGIN@webproxy.DOMAIN http://g.co/
    ```
 ## Running the HA version in a multi-AZ cluster
 The above example vars [ha-with-nginx-ingress.yaml](./samples/ha-with-nginx-ingress.yaml) have soft anti-affinity scheduling 
