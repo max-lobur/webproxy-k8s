@@ -2,4 +2,4 @@ apiVersion: v1
 appVersion: "1.0"
 description: A simple web proxy (squid3) with basic auth.
 name: webproxy
-version: 0.3.0
+version: 0.4.0

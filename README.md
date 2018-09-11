@@ -13,17 +13,17 @@ A simple web proxy with basic auth, running on kubernetes. Based on Squid3.
    ```
 1. Edit sample vars
    ```bash
-   cp ./samples/ha-with-nginx-ingress{,.my}.yaml
-   open ./samples/ha-with-nginx-ingress.my.yaml
+   cp ./samples/high-avail{,.my}.yaml
+   open ./samples/high-avail.my.yaml
    ```
 1. Deploy
    ```bash
-   helm install webproxy-k8s/webproxy --name webproxy-k8s --namespace=webproxy -f samples/ha-with-lb-service.yaml --set login="$LOGIN"
+   helm install webproxy-k8s/webproxy --name webproxy-k8s --namespace=webproxy -f samples/high-avail.my.yaml --set login="$LOGIN"
    ```
 1. Test
    ```bash
    curl -v -x https://$LOGIN@webproxy.DOMAIN http://g.co/
    ```
 ## Running the HA version in a multi-AZ cluster
-The above example vars [ha-with-nginx-ingress.yaml](./samples/ha-with-nginx-ingress.yaml) have soft anti-affinity scheduling 
-based on `failure-domain.beta.kubernetes.io/zone` node tag. See [Docs](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) for details.
+Chart [deployment](./charts/webproxy/templates/deployment.yaml) has [soft anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) 
+scheduling built-in. To get HA setup run it on a multi-node cluster and set replicas to >1.

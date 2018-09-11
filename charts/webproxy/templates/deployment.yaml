@@ -39,12 +39,20 @@ spec:
               name: squid3          
           resources:
 {{ toYaml .Values.resources | indent 12 }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - {{ template "webproxy.name" . }}
+              topologyKey: failure-domain.beta.kubernetes.io/zone
+            weight: 100
     {{- with .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.affinity }}
-      affinity:
 {{ toYaml . | indent 8 }}
     {{- end }}
     {{- with .Values.tolerations }}

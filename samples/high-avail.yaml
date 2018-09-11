@@ -1,0 +1,4 @@
+replicaCount: 2
+service:
+  ssl_cert_arn: aws:cert:arn
+  hostname: webproxy.domain.io
