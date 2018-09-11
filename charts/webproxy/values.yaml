@@ -7,7 +7,7 @@ replicaCount: 1
 
 image:
   repository: sameersbn/squid
-  tag: 3.3.8-23
+  tag: 3.5.27
   pullPolicy: IfNotPresent
 
 service:

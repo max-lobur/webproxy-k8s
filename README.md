@@ -18,7 +18,11 @@ A simple web proxy with basic auth, running on kubernetes. Based on Squid3.
    ```
 1. Test
    ```bash
-   curl -v -x https://$LOGIN@name.DOMAIN http://g.co/
+   curl -v -x usr:pwd@name.domain.io http://g.co/
+   ```
+1. Upgrading 
+   ```bash
+   helm upgrade webproxy-k8s charts/`ls charts/ | tail -1` -f samples/high-avail.my.yaml --set login="$LOGIN"
    ```
 ## Running the HA version in a multi-AZ cluster
 Chart [deployment](./charts/webproxy/templates/deployment.yaml) has [soft anti-affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) 

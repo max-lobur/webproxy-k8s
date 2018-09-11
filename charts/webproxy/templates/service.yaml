@@ -10,7 +10,7 @@ metadata:
     heritage: {{ .Release.Service }}
   annotations:
     external-dns.alpha.kubernetes.io/hostname: {{ .Values.service.hostname }}
-    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: 600
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "600"
 spec:
   type: {{ .Values.service.type }}
   ports:
