@@ -11,8 +11,9 @@ image:
   pullPolicy: IfNotPresent
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 8080
+  hostname: name.domain.io
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

@@ -1,4 +1,5 @@
 replicaCount: 2
 service:
-  ssl_cert_arn: aws:cert:arn
+  type: LoadBalancer
+  port: 8080
   hostname: name.domain.io
